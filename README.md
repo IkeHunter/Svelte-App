@@ -66,6 +66,8 @@ Example usage of `state` and `derived` runes:
 </p>
 ```
 
+You can interact with state variables like any other js value. For instance, if the state value was an array, normal methods like `push` could be called on it like normal. This is unlike react, where you have to have a set function, and unlike angular signals where you have to call a set function on it.
+
 ### Binding & Effects
 
 ```svelte
@@ -136,4 +138,55 @@ Calling the component:
 <UserInput username={'John Doe'}>
   <p>This is teh stuff passed in</p>
 </UserInput>
+```
+
+## Templating
+
+### Snippets
+
+Use snippets to define components in the same file, without defining them in another file like other components. They cannot have their own `<style>` or `<script>` tags.
+
+```svelte
+{#snippet userInput(personId: string)}
+  <p>Person id: {personId}</p>
+{/snippet}
+```
+
+### If/Else
+
+Conditional rendering.
+
+```svelte
+<script>
+  let isEditMode = $state(false);
+  let username = $state('');
+</script>
+
+{#if isEditMode}
+  <input type="text" bind:value={username} />
+{:else}
+  <p>username: {username}</p>
+{/if}
+```
+
+### Each
+
+For each element in array.
+
+```svelte
+<script>
+  let peopleWaiting = $state(['abc', 'def', 'ghi']);
+</script>
+
+{#snippet userInput(personId: string)}
+  <li>ID for person waiting: {personId}</li>
+{/snippet}
+
+<ul>
+  {#each peopleWaiting as person}
+    {@render userInput(person)}
+  {/each}
+</ul>
+
+<button onclick={() => peopleWaiting.push(new Date().getTime().toString())}>I'm Waiting Too</button>
 ```
