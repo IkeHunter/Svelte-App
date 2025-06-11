@@ -1,38 +1,67 @@
-# sv
+# Svelte Intro
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+## Structure
 
-## Creating a project
+Example Svelte File:
 
-If you're seeing this, you've probably already done this step. Congrats!
+```svelte
+<script lang="ts">
+  function onclick() {
+    console.log('Clicked function from script tag');
+  }
+  let numberOne = 5;
+</script>
 
-```bash
-# create a new project in the current directory
-npx sv create
+<!-- <button onclick={() => console.log('This button has been clicked')}> Click me! </button> -->
+<button {onclick}>Click me!</button>
 
-# create a new project in my-app
-npx sv create my-app
+<h1>{numberOne}</h1>
+<p>Hello!</p>
+
+<div class="container">
+  <p>This is the left</p>
+  <p>This is the right</p>
+</div>
+
+<style>
+  /* Scoped styles for this file only */
+  h1 {
+    color: blue;
+    font-family: 'Courier New', Courier, monospace;
+  }
+
+  .container {
+    display: flex;
+    justify-content: space-between;
+  }
+</style>
 ```
 
-## Developing
+Note:
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+- The file base is HTML, unlike React where file base is js
+- Scripts/styles created in a svelte file are only scoped to that file, much like styles in Angular or Css modules in React
+- String interpolation is done using single braces `{...}`
+- Shorthand syntax can be used to replace function props like `onclick={onclick}` with `{onclick}` if named the same
 
-```bash
-npm run dev
+## Reactivity
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+Svelte uses signals to manage state, much like Angular. Standard library svelte functions are called "runes" (like React "hooks"), and function similarly to Angular's signal api.
+
+Example usage of `state` and `derived` runes:
+
+```svelte
+<script lang="ts">
+  let num = $state(0); // Like Angular's signal()
+  let message = $derived(num > 0 ? 'Greater than zero' : 'Equal to zero'); // Like Angular's computed()
+
+  function increment() {
+    num++;
+  }
+</script>
+
+<p>
+  {message}
+  <button onclick={increment}>Increment</button>
+</p>
 ```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
