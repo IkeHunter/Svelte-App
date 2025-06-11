@@ -65,3 +65,36 @@ Example usage of `state` and `derived` runes:
   <button onclick={increment}>Increment</button>
 </p>
 ```
+
+### Binding & Effects
+
+```svelte
+<script lang="ts">
+  let username = $state('');
+
+  $effect(() => {
+    if (username) {
+      // Automatically adds username as dependency
+      console.log(`Sending to database: ${username}`);
+    }
+  });
+</script>
+
+<h1>Your username</h1>
+<input type="text" bind:value={username} />
+
+<p>{username}</p>
+```
+
+One way binding on the input would look like this: `value={username}`, and 2-way looks like this: `bind:value={username}`. Like Angular's `[(value)]="username"` syntax.
+
+The effect rune automatically tracks dependencies, unlike React but like Angular. State variables need to be listed if they are to be ignored.
+
+Without using effect, state values can be easily debugged using `$inspect` rune like this:
+
+```svelte
+<script>
+  let username = $state('');
+  $inspect(username);
+</script>
+```
