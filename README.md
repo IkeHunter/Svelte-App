@@ -98,3 +98,42 @@ Without using effect, state values can be easily debugged using `$inspect` rune 
   $inspect(username);
 </script>
 ```
+
+## Components
+
+```svelte
+<!-- lib/components/UserInput.svelte -->
+<script lang="ts">
+  import type { Snippet } from 'svelte';
+
+  interface UserInputInterface {
+    children: Snippet;
+    username: string;
+  }
+
+  // Accept input to the component
+  let { username, children, ...props }: UserInputInterface = $props();
+</script>
+
+<h1>Your username</h1>
+<input type="text" bind:value={username} />
+
+<!-- Render all children passed in -->
+{@render children()}
+
+<p>{username}</p>
+```
+
+The `$props()` run is like angular's `input()` signal, but is not generically typed, so need to manually type cast the inputs/props.
+
+Calling the component:
+
+```svelte
+<script>
+  import UserInput from '$lib/components/UserInput.svelte';
+</script>
+
+<UserInput username={'John Doe'}>
+  <p>This is teh stuff passed in</p>
+</UserInput>
+```

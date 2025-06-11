@@ -1,25 +1,10 @@
-<script lang="ts">
-  let username = $state('');
-
-  // $effect(() => {
-  //   if (username) {
-  //     // Automatically adds username as dependency
-  //     console.log(`Sending to database: ${username}`);
-  //   }
-  // });
+<script>
+  import UserInput from '$lib/components/UserInput.svelte';
   
-  $inspect(username)
+  let data = $props();
+  $inspect(data);
 </script>
 
-<h1>Your username</h1>
-<input type="text" bind:value={username} />
-
-<p>{username}</p>
-
-<style>
-  /* Scoped styles for this file only */
-  h1 {
-    color: blue;
-    font-family: 'Courier New', Courier, monospace;
-  }
-</style>
+<UserInput username={'John Doe'}>
+  <h1>This is teh stuff passed in</h1>
+</UserInput>
