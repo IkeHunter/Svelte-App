@@ -197,8 +197,8 @@ Types of files:
 
 - `+page.svelte`: Client side, represents the root page for a route (folder)
 - `+layout.svelte`: Client side, wraps around the page rendered. Layouts are resolved like an onion from outside in.
-- `+page.server.ts`: Server load function
-- `+page.ts`: Load function, runs twice - once on server, once on client
+- `+page.server.ts`, `+layout.server.ts`: Server load function
+- `+page.ts`, `+layout.ts`: Load function, runs twice - once on server, once on client
 
 Data fetching in Svelte:
 
@@ -239,14 +239,12 @@ export const load: PageServerLoad = async ({ params }) => {
 
 ```svelte
 <!-- +page.svelte -->
- <script lang="ts">
+<script lang="ts">
   let { data } = $props();
   let { blogPost } = data;
 
   $inspect(data); // { blogPost: "..." }
 </script>
 
-<h1>Blog article</h1>
-<p>{blogPost}</p>
-
+<h1>Blog article</h1><p>{blogPost}</p>
 ```
