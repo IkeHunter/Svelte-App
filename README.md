@@ -190,3 +190,63 @@ For each element in array.
 
 <button onclick={() => peopleWaiting.push(new Date().getTime().toString())}>I'm Waiting Too</button>
 ```
+
+## File-based Routing
+
+Types of files:
+
+- `+page.svelte`: Client side, represents the root page for a route (folder)
+- `+layout.svelte`: Client side, wraps around the page rendered. Layouts are resolved like an onion from outside in.
+- `+page.server.ts`: Server load function
+- `+page.ts`: Load function, runs twice - once on server, once on client
+
+Data fetching in Svelte:
+
+```txt
+
++page.server.ts  ->  +page.ts  -> +page.svelte
+---------------      --------     ------------
+           <- Backend   |   Frontend ->
+
+```
+
+### Passing data from server to client
+
+With `+page.server.ts` -> `+page.svelte`:
+
+```ts
+// +page.server.ts
+import { error } from '@sveltejs/kit';
+import type { PageServerLoad } from './$types';
+
+export const load: PageServerLoad = async ({ params }) => {
+  console.log(params);
+
+  const blogArticles = [
+    { id: '0', text: 'This is the first blog article.' },
+    { id: '1', text: 'This is the second blog article.' }
+  ];
+
+  const foundArticle = blogArticles.find((article) => article.id === params.articleId);
+
+  if (foundArticle) {
+    return { blogPost: foundArticle.text };
+  }
+
+  throw error(404, 'Article not found');
+};
+```
+
+```svelte
+<!-- +page.svelte -->
+ <script lang="ts">
+  let { data } = $props();
+  let { blogPost } = data;
+
+  $inspect(data); // { blogPost: "..." }
+</script>
+
+<h1>Blog article</h1>
+<p>{blogPost}</p>
+
+```
