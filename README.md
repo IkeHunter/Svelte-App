@@ -248,3 +248,24 @@ export const load: PageServerLoad = async ({ params }) => {
 
 <h1>Blog article</h1><p>{blogPost}</p>
 ```
+
+### REST APIs
+
+Example of a REST API:
+
+```ts
+// routes/api/purchase-confirmation/+server.ts
+
+import { json } from '@sveltejs/kit';
+
+export async function POST({ request }) {
+  const requestBody = await request.json();
+  console.log(requestBody);
+
+  // Business logic....
+
+  return json({ message: 'Purchase was successful' });
+}
+```
+
+The file path determines the route, and function name determines the method.
