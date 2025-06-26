@@ -1,5 +1,7 @@
 # Svelte Intro
 
+Notes taken during first module of online Svelte course by Niklas Fischer: <https://www.udemy.com/share/10bZyt3@wEjRoe1GEnGsWvZD7JATlq6DFo-r5Q90M-nq1dHRFZ9JZz0aFe22zctFURLX-z7L/>
+
 ## Structure
 
 Example Svelte File:
